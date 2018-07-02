@@ -1,0 +1,17 @@
+resources:
+- name: version
+  type: semver
+  source:
+    driver: git
+    uri: git@github.com:superbrothers-sandbox/try-concourse-semver-resource.git
+    branch: version
+    file: version.txt
+    private_key: ((git-private-key))
+
+jobs:
+- name: bump-minor
+  plan:
+  - get: version
+    params: {bump: minor}
+  - put: version
+    params: {file: version/version}
